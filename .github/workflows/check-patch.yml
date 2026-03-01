@@ -96,7 +96,6 @@ jobs:
           unzip "$GITHUB_WORKSPACE/downloaded_font/${{ env.FONT_NAME }}.zip" -d "$GITHUB_WORKSPACE/downloaded_font"
 
       - name: Patch the Iosevka font
-        timeout-minutes: 60
         run: |
           mkdir -p $GITHUB_WORKSPACE/patched_font
           fontforge --script ./font-patcher "$GITHUB_WORKSPACE/downloaded_font/SGr-${{ env.FONT_NAME }}.ttc" \
@@ -108,6 +107,7 @@ jobs:
         with:
           tag_name: ${{ needs.check.outputs.ver }}
           body: |
+            [Iosevka ${{ needs.check.outputs.tag }}](https://github.com/be5invis/Iosevka/releases/tag/${{ needs.check.outputs.tag }})
             ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           files: patched_font/*
           fail_on_unmatched_files: true
